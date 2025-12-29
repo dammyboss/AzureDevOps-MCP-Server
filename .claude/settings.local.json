@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm run build:*)",
+      "Bash(cat:*)",
+      "Bash(dir:*)",
+      "Bash(npm install:*)",
+      "Bash(az --version:*)",
+      "Bash(az account show:*)",
+      "Bash(az group create:*)",
+      "Bash(az storage account create:*)",
+      "Bash(az functionapp create:*)",
+      "Bash(az functionapp config appsettings set:*)",
+      "Bash(func azure functionapp publish:*)",
+      "Bash(npx func:*)",
+      "Bash(az functionapp function list:*)",
+      "Bash(az webapp log tail:*)",
+      "Bash(curl:*)",
+      "Bash(az functionapp keys list:*)",
+      "Bash(az functionapp config appsettings delete:*)"
+    ]
+  }
+}

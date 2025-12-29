@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+
+# Azure Functions
+local.settings.json
+.azure/
+
+# IDE
+.vscode/
+.idea/

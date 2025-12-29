@@ -1,0 +1,41 @@
+{
+  "name": "dami-ado-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for Azure DevOps with Entra ID authentication",
+  "main": "dist/functions/mcp.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "build": "tsc",
+    "build:func": "tsc && func extensions install",
+    "start": "node dist/index.js",
+    "start:http": "node dist/http-wrapper.js",
+    "start:func": "func start",
+    "deploy": "func azure functionapp publish dami-ado-mcp-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "azure-devops",
+    "entra-id"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@azure/functions": "^4.10.0",
+    "@azure/identity": "^4.13.0",
+    "@modelcontextprotocol/sdk": "^1.24.2",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
