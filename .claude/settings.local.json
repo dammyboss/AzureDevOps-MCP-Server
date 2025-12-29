@@ -18,7 +18,16 @@
       "Bash(az webapp log tail:*)",
       "Bash(curl:*)",
       "Bash(az functionapp keys list:*)",
-      "Bash(az functionapp config appsettings delete:*)"
+      "Bash(az functionapp config appsettings delete:*)",
+      "Bash(timeout /t 10 /nobreak)",
+      "Bash(powershell -Command \"cd ''c:\\\\Users\\\\damsconas\\\\Downloads\\\\dami-ado-mcp-server''; func azure functionapp publish dami-ado-mcp-server\")",
+      "Bash(az functionapp deployment source config-zip:*)",
+      "Bash(az functionapp restart:*)",
+      "Bash(func --version:*)",
+      "Bash(where:*)",
+      "Bash(\"C:\\\\Users\\\\damsconas\\\\AppData\\\\Roaming\\\\npm\\\\func.cmd\" azure functionapp publish dami-ado-mcp-server)",
+      "Bash(set \"FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1\")",
+      "Bash(powershell:*)"
     ]
   }
 }

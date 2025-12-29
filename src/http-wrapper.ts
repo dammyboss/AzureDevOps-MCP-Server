@@ -339,6 +339,9 @@ async function executeToolInternal(client: AzureDevOpsClient, toolName: string, 
     case 'list_iterations':
       return client.getIterations(args.project);
 
+    case 'create_iteration':
+      return client.createIteration(args.project, args.name, args.startDate, args.finishDate, args.parentPath);
+
     case 'create_iterations':
       return client.createIterations(args.project, args.iterations);
 

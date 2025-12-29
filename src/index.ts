@@ -626,6 +626,507 @@ const tools: Tool[] = [
       required: ['project'],
     },
   },
+  {
+    name: 'get_repository',
+    description: 'Get details of a specific repository',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+      },
+      required: ['project', 'repositoryId'],
+    },
+  },
+  {
+    name: 'get_branch',
+    description: 'Get details of a specific branch',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+        branchName: { type: 'string', description: 'Branch name (without refs/heads/)' },
+      },
+      required: ['project', 'repositoryId', 'branchName'],
+    },
+  },
+  {
+    name: 'create_branch',
+    description: 'Create a new branch in a repository',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+        name: { type: 'string', description: 'New branch name' },
+        sourceBranch: { type: 'string', description: 'Source branch name to branch from' },
+      },
+      required: ['project', 'repositoryId', 'name', 'sourceBranch'],
+    },
+  },
+  {
+    name: 'search_commits',
+    description: 'Search commits with criteria',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+        searchCriteria: { type: 'object', description: 'Search criteria object' },
+        top: { type: 'number', description: 'Number of commits (default 100)' },
+      },
+      required: ['project', 'repositoryId', 'searchCriteria'],
+    },
+  },
+  {
+    name: 'update_work_items_batch',
+    description: 'Update multiple work items in a batch',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        updates: { type: 'array', description: 'Array of update operations' },
+      },
+      required: ['project', 'updates'],
+    },
+  },
+  {
+    name: 'add_child_work_items',
+    description: 'Add child work items to a parent',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        parentId: { type: 'number', description: 'Parent work item ID' },
+        childIds: { type: 'array', items: { type: 'number' }, description: 'Child work item IDs' },
+      },
+      required: ['project', 'parentId', 'childIds'],
+    },
+  },
+  {
+    name: 'link_work_items',
+    description: 'Link two work items together',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        sourceId: { type: 'number', description: 'Source work item ID' },
+        targetId: { type: 'number', description: 'Target work item ID' },
+        linkType: { type: 'string', description: 'Link type (default: System.LinkTypes.Related)' },
+      },
+      required: ['project', 'sourceId', 'targetId'],
+    },
+  },
+  {
+    name: 'add_work_item_comment',
+    description: 'Add a comment to a work item',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        workItemId: { type: 'number', description: 'Work item ID' },
+        text: { type: 'string', description: 'Comment text' },
+      },
+      required: ['project', 'workItemId', 'text'],
+    },
+  },
+  {
+    name: 'get_my_work_items',
+    description: 'Get work items assigned to or created by current user',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        assignedToMe: { type: 'boolean', description: 'True for assigned, false for created by' },
+      },
+      required: ['project'],
+    },
+  },
+  {
+    name: 'get_work_items_for_iteration',
+    description: 'Get work items for a specific iteration',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        iterationPath: { type: 'string', description: 'Iteration path' },
+      },
+      required: ['project', 'iterationPath'],
+    },
+  },
+  {
+    name: 'list_backlogs',
+    description: 'List backlogs for a team',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        team: { type: 'string', description: 'Team name or ID' },
+      },
+      required: ['project', 'team'],
+    },
+  },
+  {
+    name: 'list_backlog_work_items',
+    description: 'List work items in a backlog',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        team: { type: 'string', description: 'Team name or ID' },
+        backlogId: { type: 'string', description: 'Backlog ID' },
+      },
+      required: ['project', 'team', 'backlogId'],
+    },
+  },
+  {
+    name: 'update_pull_request',
+    description: 'Update a pull request',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+        pullRequestId: { type: 'number', description: 'Pull request ID' },
+        updates: { type: 'object', description: 'Update fields' },
+      },
+      required: ['project', 'repositoryId', 'pullRequestId', 'updates'],
+    },
+  },
+  {
+    name: 'update_pull_request_reviewers',
+    description: 'Update reviewers for a pull request',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+        pullRequestId: { type: 'number', description: 'Pull request ID' },
+        reviewers: { type: 'array', description: 'Array of reviewer objects' },
+      },
+      required: ['project', 'repositoryId', 'pullRequestId', 'reviewers'],
+    },
+  },
+  {
+    name: 'list_pull_request_threads',
+    description: 'List threads in a pull request',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+        pullRequestId: { type: 'number', description: 'Pull request ID' },
+      },
+      required: ['project', 'repositoryId', 'pullRequestId'],
+    },
+  },
+  {
+    name: 'create_pull_request_thread',
+    description: 'Create a new thread in a pull request',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+        pullRequestId: { type: 'number', description: 'Pull request ID' },
+        thread: { type: 'object', description: 'Thread object with comments' },
+      },
+      required: ['project', 'repositoryId', 'pullRequestId', 'thread'],
+    },
+  },
+  {
+    name: 'reply_to_pull_request_comment',
+    description: 'Reply to a pull request comment',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID or name' },
+        pullRequestId: { type: 'number', description: 'Pull request ID' },
+        threadId: { type: 'number', description: 'Thread ID' },
+        comment: { type: 'object', description: 'Comment object' },
+      },
+      required: ['project', 'repositoryId', 'pullRequestId', 'threadId', 'comment'],
+    },
+  },
+  {
+    name: 'get_build_status',
+    description: 'Get status of a specific build',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        buildId: { type: 'number', description: 'Build ID' },
+      },
+      required: ['project', 'buildId'],
+    },
+  },
+  {
+    name: 'get_build_log',
+    description: 'Get logs for a build',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        buildId: { type: 'number', description: 'Build ID' },
+      },
+      required: ['project', 'buildId'],
+    },
+  },
+  {
+    name: 'run_pipeline',
+    description: 'Trigger a pipeline run',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        pipelineId: { type: 'number', description: 'Pipeline ID' },
+        parameters: { type: 'object', description: 'Optional pipeline parameters' },
+      },
+      required: ['project', 'pipelineId'],
+    },
+  },
+  {
+    name: 'get_pipeline_run',
+    description: 'Get details of a pipeline run',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        pipelineId: { type: 'number', description: 'Pipeline ID' },
+        runId: { type: 'number', description: 'Run ID' },
+      },
+      required: ['project', 'pipelineId', 'runId'],
+    },
+  },
+  {
+    name: 'list_pipeline_runs',
+    description: 'List runs for a pipeline',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        pipelineId: { type: 'number', description: 'Pipeline ID' },
+        top: { type: 'number', description: 'Number of runs (default 10)' },
+      },
+      required: ['project', 'pipelineId'],
+    },
+  },
+  {
+    name: 'create_iteration',
+    description: 'Create a single iteration (sprint) with optional start and end dates',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        name: { type: 'string', description: 'Iteration/sprint name (e.g., "Sprint 1", "January Sprint")' },
+        startDate: { type: 'string', description: 'Start date (e.g., "2025-01-06" or "January 6, 2025")' },
+        finishDate: { type: 'string', description: 'End/finish date (e.g., "2025-01-17" or "January 17, 2025")' },
+        parentPath: { type: 'string', description: 'Optional parent iteration path for nested iterations' },
+      },
+      required: ['project', 'name'],
+    },
+  },
+  {
+    name: 'create_iterations',
+    description: 'Create multiple iterations (sprints) in batch. Each iteration can have name, startDate, finishDate, and optional parentPath.',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        iterations: {
+          type: 'array',
+          description: 'Array of iteration objects with name, startDate, finishDate, and optional parentPath',
+          items: {
+            type: 'object',
+            properties: {
+              name: { type: 'string', description: 'Iteration name' },
+              startDate: { type: 'string', description: 'Start date' },
+              finishDate: { type: 'string', description: 'End date' },
+              parentPath: { type: 'string', description: 'Optional parent path' },
+            },
+            required: ['name'],
+          },
+        },
+      },
+      required: ['project', 'iterations'],
+    },
+  },
+  {
+    name: 'get_team_capacity',
+    description: 'Get team capacity for an iteration',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        team: { type: 'string', description: 'Team name or ID' },
+        iterationId: { type: 'string', description: 'Iteration ID' },
+      },
+      required: ['project', 'team', 'iterationId'],
+    },
+  },
+  {
+    name: 'update_team_capacity',
+    description: 'Update team capacity for an iteration',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        team: { type: 'string', description: 'Team name or ID' },
+        iterationId: { type: 'string', description: 'Iteration ID' },
+        capacities: { type: 'array', description: 'Array of capacity objects' },
+      },
+      required: ['project', 'team', 'iterationId', 'capacities'],
+    },
+  },
+  {
+    name: 'get_wiki',
+    description: 'Get details of a specific wiki',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        wikiIdentifier: { type: 'string', description: 'Wiki ID or name' },
+      },
+      required: ['project', 'wikiIdentifier'],
+    },
+  },
+  {
+    name: 'list_wiki_pages',
+    description: 'List pages in a wiki',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        wikiIdentifier: { type: 'string', description: 'Wiki ID or name' },
+        path: { type: 'string', description: 'Path to list pages from (default /)' },
+      },
+      required: ['project', 'wikiIdentifier'],
+    },
+  },
+  {
+    name: 'create_or_update_wiki_page',
+    description: 'Create or update a wiki page',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        wikiIdentifier: { type: 'string', description: 'Wiki ID or name' },
+        path: { type: 'string', description: 'Page path' },
+        content: { type: 'string', description: 'Page content (markdown)' },
+        comment: { type: 'string', description: 'Optional commit comment' },
+      },
+      required: ['project', 'wikiIdentifier', 'path', 'content'],
+    },
+  },
+  {
+    name: 'create_test_plan',
+    description: 'Create a new test plan',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        name: { type: 'string', description: 'Test plan name' },
+        description: { type: 'string', description: 'Optional description' },
+      },
+      required: ['project', 'name'],
+    },
+  },
+  {
+    name: 'list_test_suites',
+    description: 'List test suites in a test plan',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        planId: { type: 'number', description: 'Test plan ID' },
+      },
+      required: ['project', 'planId'],
+    },
+  },
+  {
+    name: 'create_test_suite',
+    description: 'Create a test suite in a test plan',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        planId: { type: 'number', description: 'Test plan ID' },
+        name: { type: 'string', description: 'Suite name' },
+        suiteType: { type: 'string', description: 'Suite type (default: StaticTestSuite)' },
+      },
+      required: ['project', 'planId', 'name'],
+    },
+  },
+  {
+    name: 'list_test_cases',
+    description: 'List test cases in a test suite',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        planId: { type: 'number', description: 'Test plan ID' },
+        suiteId: { type: 'number', description: 'Test suite ID' },
+      },
+      required: ['project', 'planId', 'suiteId'],
+    },
+  },
+  {
+    name: 'create_test_case',
+    description: 'Create a new test case',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        title: { type: 'string', description: 'Test case title' },
+        steps: { type: 'array', description: 'Optional test steps' },
+      },
+      required: ['project', 'title'],
+    },
+  },
+  {
+    name: 'search_wiki',
+    description: 'Search wiki pages',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        searchText: { type: 'string', description: 'Search text' },
+        project: { type: 'string', description: 'Optional project filter' },
+        wikiIdentifier: { type: 'string', description: 'Optional wiki filter' },
+        top: { type: 'number', description: 'Number of results (default 10)' },
+      },
+      required: ['searchText'],
+    },
+  },
+  {
+    name: 'get_advanced_security_alerts',
+    description: 'Get advanced security alerts for a repository',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID' },
+        severity: { type: 'string', description: 'Optional severity filter' },
+        state: { type: 'string', description: 'Optional state filter' },
+        top: { type: 'number', description: 'Number of alerts (default 100)' },
+      },
+      required: ['project', 'repositoryId'],
+    },
+  },
+  {
+    name: 'get_advanced_security_alert_details',
+    description: 'Get details of a specific security alert',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        project: { type: 'string', description: 'Project name or ID' },
+        repositoryId: { type: 'string', description: 'Repository ID' },
+        alertId: { type: 'string', description: 'Alert ID' },
+      },
+      required: ['project', 'repositoryId', 'alertId'],
+    },
+  },
 ];
 
 // Handle ListTools request
@@ -1104,6 +1605,309 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             },
           ],
         };
+      }
+
+      case 'get_repository': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const repo = await azureClient.getRepositoryById(project, repositoryId);
+        return { content: [{ type: 'text', text: JSON.stringify(repo, null, 2) }] };
+      }
+
+      case 'get_branch': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const branchName = args?.branchName as string;
+        const branch = await azureClient.getBranchByName(project, repositoryId, branchName);
+        return { content: [{ type: 'text', text: JSON.stringify(branch, null, 2) }] };
+      }
+
+      case 'create_branch': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const name = args?.name as string;
+        const sourceBranch = args?.sourceBranch as string;
+        const branch = await azureClient.createBranch(project, repositoryId, name, sourceBranch);
+        return { content: [{ type: 'text', text: JSON.stringify(branch, null, 2) }] };
+      }
+
+      case 'search_commits': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const searchCriteria = args?.searchCriteria as any;
+        const top = (args?.top as number) || 100;
+        const commits = await azureClient.searchCommits(project, repositoryId, searchCriteria, top);
+        return { content: [{ type: 'text', text: JSON.stringify(commits, null, 2) }] };
+      }
+
+      case 'update_work_items_batch': {
+        const project = args?.project as string;
+        const updates = args?.updates as any[];
+        const result = await azureClient.updateWorkItemsBatch(project, updates);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'add_child_work_items': {
+        const project = args?.project as string;
+        const parentId = args?.parentId as number;
+        const childIds = args?.childIds as number[];
+        const result = await azureClient.addChildWorkItems(project, parentId, childIds);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'link_work_items': {
+        const project = args?.project as string;
+        const sourceId = args?.sourceId as number;
+        const targetId = args?.targetId as number;
+        const linkType = (args?.linkType as string) || 'System.LinkTypes.Related';
+        const result = await azureClient.linkWorkItems(project, sourceId, targetId, linkType);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'add_work_item_comment': {
+        const project = args?.project as string;
+        const workItemId = args?.workItemId as number;
+        const text = args?.text as string;
+        const result = await azureClient.addWorkItemComment(project, workItemId, text);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'get_my_work_items': {
+        const project = args?.project as string;
+        const assignedToMe = (args?.assignedToMe as boolean) ?? true;
+        const workItems = await azureClient.getMyWorkItems(project, assignedToMe);
+        return { content: [{ type: 'text', text: JSON.stringify(workItems, null, 2) }] };
+      }
+
+      case 'get_work_items_for_iteration': {
+        const project = args?.project as string;
+        const iterationPath = args?.iterationPath as string;
+        const workItems = await azureClient.getWorkItemsForIteration(project, iterationPath);
+        return { content: [{ type: 'text', text: JSON.stringify(workItems, null, 2) }] };
+      }
+
+      case 'list_backlogs': {
+        const project = args?.project as string;
+        const team = args?.team as string;
+        const backlogs = await azureClient.listBacklogs(project, team);
+        return { content: [{ type: 'text', text: JSON.stringify(backlogs, null, 2) }] };
+      }
+
+      case 'list_backlog_work_items': {
+        const project = args?.project as string;
+        const team = args?.team as string;
+        const backlogId = args?.backlogId as string;
+        const workItems = await azureClient.listBacklogWorkItems(project, team, backlogId);
+        return { content: [{ type: 'text', text: JSON.stringify(workItems, null, 2) }] };
+      }
+
+      case 'update_pull_request': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const pullRequestId = args?.pullRequestId as number;
+        const updates = args?.updates as any;
+        const pr = await azureClient.updatePullRequest(project, repositoryId, pullRequestId, updates);
+        return { content: [{ type: 'text', text: JSON.stringify(pr, null, 2) }] };
+      }
+
+      case 'update_pull_request_reviewers': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const pullRequestId = args?.pullRequestId as number;
+        const reviewers = args?.reviewers as any[];
+        const result = await azureClient.updatePullRequestReviewers(project, repositoryId, pullRequestId, reviewers);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'list_pull_request_threads': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const pullRequestId = args?.pullRequestId as number;
+        const threads = await azureClient.listPullRequestThreads(project, repositoryId, pullRequestId);
+        return { content: [{ type: 'text', text: JSON.stringify(threads, null, 2) }] };
+      }
+
+      case 'create_pull_request_thread': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const pullRequestId = args?.pullRequestId as number;
+        const thread = args?.thread as any;
+        const result = await azureClient.createPullRequestThread(project, repositoryId, pullRequestId, thread);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'reply_to_pull_request_comment': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const pullRequestId = args?.pullRequestId as number;
+        const threadId = args?.threadId as number;
+        const comment = args?.comment as any;
+        const result = await azureClient.replyToPullRequestComment(project, repositoryId, pullRequestId, threadId, comment);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'get_build_status': {
+        const project = args?.project as string;
+        const buildId = args?.buildId as number;
+        const status = await azureClient.getBuildStatus(project, buildId);
+        return { content: [{ type: 'text', text: JSON.stringify(status, null, 2) }] };
+      }
+
+      case 'get_build_log': {
+        const project = args?.project as string;
+        const buildId = args?.buildId as number;
+        const logs = await azureClient.getBuildLog(project, buildId);
+        return { content: [{ type: 'text', text: JSON.stringify(logs, null, 2) }] };
+      }
+
+      case 'run_pipeline': {
+        const project = args?.project as string;
+        const pipelineId = args?.pipelineId as number;
+        const parameters = args?.parameters as any;
+        const run = await azureClient.runPipeline(project, pipelineId, parameters);
+        return { content: [{ type: 'text', text: JSON.stringify(run, null, 2) }] };
+      }
+
+      case 'get_pipeline_run': {
+        const project = args?.project as string;
+        const pipelineId = args?.pipelineId as number;
+        const runId = args?.runId as number;
+        const run = await azureClient.getPipelineRun(project, pipelineId, runId);
+        return { content: [{ type: 'text', text: JSON.stringify(run, null, 2) }] };
+      }
+
+      case 'list_pipeline_runs': {
+        const project = args?.project as string;
+        const pipelineId = args?.pipelineId as number;
+        const top = (args?.top as number) || 10;
+        const runs = await azureClient.listPipelineRuns(project, pipelineId, top);
+        return { content: [{ type: 'text', text: JSON.stringify(runs, null, 2) }] };
+      }
+
+      case 'create_iteration': {
+        const project = args?.project as string;
+        const name = args?.name as string;
+        const startDate = args?.startDate as string | undefined;
+        const finishDate = args?.finishDate as string | undefined;
+        const parentPath = args?.parentPath as string | undefined;
+        const result = await azureClient.createIteration(project, name, startDate, finishDate, parentPath);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'create_iterations': {
+        const project = args?.project as string;
+        const iterations = args?.iterations as any[];
+        const result = await azureClient.createIterations(project, iterations);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'get_team_capacity': {
+        const project = args?.project as string;
+        const team = args?.team as string;
+        const iterationId = args?.iterationId as string;
+        const capacity = await azureClient.getTeamCapacity(project, team, iterationId);
+        return { content: [{ type: 'text', text: JSON.stringify(capacity, null, 2) }] };
+      }
+
+      case 'update_team_capacity': {
+        const project = args?.project as string;
+        const team = args?.team as string;
+        const iterationId = args?.iterationId as string;
+        const capacities = args?.capacities as any[];
+        const result = await azureClient.updateTeamCapacity(project, team, iterationId, capacities);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'get_wiki': {
+        const project = args?.project as string;
+        const wikiIdentifier = args?.wikiIdentifier as string;
+        const wiki = await azureClient.getWiki(project, wikiIdentifier);
+        return { content: [{ type: 'text', text: JSON.stringify(wiki, null, 2) }] };
+      }
+
+      case 'list_wiki_pages': {
+        const project = args?.project as string;
+        const wikiIdentifier = args?.wikiIdentifier as string;
+        const path = (args?.path as string) || '/';
+        const pages = await azureClient.listWikiPages(project, wikiIdentifier, path);
+        return { content: [{ type: 'text', text: JSON.stringify(pages, null, 2) }] };
+      }
+
+      case 'create_or_update_wiki_page': {
+        const project = args?.project as string;
+        const wikiIdentifier = args?.wikiIdentifier as string;
+        const path = args?.path as string;
+        const content = args?.content as string;
+        const comment = args?.comment as string | undefined;
+        const result = await azureClient.createOrUpdateWikiPage(project, wikiIdentifier, path, content, comment);
+        return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
+      }
+
+      case 'create_test_plan': {
+        const project = args?.project as string;
+        const name = args?.name as string;
+        const description = args?.description as string | undefined;
+        const plan = await azureClient.createTestPlan(project, name, description);
+        return { content: [{ type: 'text', text: JSON.stringify(plan, null, 2) }] };
+      }
+
+      case 'list_test_suites': {
+        const project = args?.project as string;
+        const planId = args?.planId as number;
+        const suites = await azureClient.listTestSuites(project, planId);
+        return { content: [{ type: 'text', text: JSON.stringify(suites, null, 2) }] };
+      }
+
+      case 'create_test_suite': {
+        const project = args?.project as string;
+        const planId = args?.planId as number;
+        const name = args?.name as string;
+        const suiteType = (args?.suiteType as string) || 'StaticTestSuite';
+        const suite = await azureClient.createTestSuite(project, planId, name, suiteType);
+        return { content: [{ type: 'text', text: JSON.stringify(suite, null, 2) }] };
+      }
+
+      case 'list_test_cases': {
+        const project = args?.project as string;
+        const planId = args?.planId as number;
+        const suiteId = args?.suiteId as number;
+        const cases = await azureClient.listTestCases(project, planId, suiteId);
+        return { content: [{ type: 'text', text: JSON.stringify(cases, null, 2) }] };
+      }
+
+      case 'create_test_case': {
+        const project = args?.project as string;
+        const title = args?.title as string;
+        const steps = args?.steps as any[] | undefined;
+        const testCase = await azureClient.createTestCase(project, title, steps);
+        return { content: [{ type: 'text', text: JSON.stringify(testCase, null, 2) }] };
+      }
+
+      case 'search_wiki': {
+        const searchText = args?.searchText as string;
+        const project = args?.project as string | undefined;
+        const wikiIdentifier = args?.wikiIdentifier as string | undefined;
+        const top = (args?.top as number) || 10;
+        const results = await azureClient.searchWiki(searchText, project, wikiIdentifier, top);
+        return { content: [{ type: 'text', text: JSON.stringify(results, null, 2) }] };
+      }
+
+      case 'get_advanced_security_alerts': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const severity = args?.severity as string | undefined;
+        const state = args?.state as string | undefined;
+        const top = (args?.top as number) || 100;
+        const alerts = await azureClient.getAdvancedSecurityAlerts(project, repositoryId, severity, state, top);
+        return { content: [{ type: 'text', text: JSON.stringify(alerts, null, 2) }] };
+      }
+
+      case 'get_advanced_security_alert_details': {
+        const project = args?.project as string;
+        const repositoryId = args?.repositoryId as string;
+        const alertId = args?.alertId as string;
+        const details = await azureClient.getAdvancedSecurityAlertDetails(project, repositoryId, alertId);
+        return { content: [{ type: 'text', text: JSON.stringify(details, null, 2) }] };
       }
 
       default:

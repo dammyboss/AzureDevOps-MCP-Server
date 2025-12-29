@@ -862,14 +862,60 @@ export class AzureDevOpsClient {
     }
   }
 
-  async createIterations(project: string, iterations: any[]): Promise<any[]> {
+  async createIteration(
+    project: string,
+    name: string,
+    startDate?: string,
+    finishDate?: string,
+    parentPath?: string
+  ): Promise<any> {
     const client = await this.getClient();
-    const url = `/${project}/_apis/wit/classificationnodes/iterations?api-version=7.1`;
-    const body = {
-      value: iterations,
+    let url = `/${project}/_apis/wit/classificationnodes/iterations`;
+    if (parentPath) {
+      url += `/${encodeURIComponent(parentPath)}`;
+    }
+    url += '?api-version=7.1';
+
+    const body: any = {
+      name,
     };
+
+    if (startDate || finishDate) {
+      body.attributes = {};
+      if (startDate) {
+        body.attributes.startDate = new Date(startDate).toISOString();
+      }
+      if (finishDate) {
+        body.attributes.finishDate = new Date(finishDate).toISOString();
+      }
+    }
+
     const response = await client.post(url, body);
-    return response.data.value || [];
+    return response.data;
+  }
+
+  async createIterations(project: string, iterations: any[]): Promise<any[]> {
+    const results: any[] = [];
+
+    for (const iteration of iterations) {
+      try {
+        const result = await this.createIteration(
+          project,
+          iteration.name,
+          iteration.startDate || iteration.attributes?.startDate,
+          iteration.finishDate || iteration.attributes?.finishDate,
+          iteration.parentPath
+        );
+        results.push(result);
+      } catch (error: any) {
+        results.push({
+          name: iteration.name,
+          error: error.response?.data?.message || error.message || 'Failed to create iteration',
+        });
+      }
+    }
+
+    return results;
   }
 
   async getTeamIterations(project: string, team: string): Promise<any[]> {

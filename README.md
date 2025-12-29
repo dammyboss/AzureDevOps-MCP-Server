@@ -1,6 +1,6 @@
 # Azure DevOps MCP Server
 
-An MCP (Model Context Protocol) server that provides 70+ tools for interacting with Azure DevOps. Supports both local Claude Desktop integration and remote deployment to Azure Functions.
+An MCP (Model Context Protocol) server that provides 69 tools for interacting with Azure DevOps. Supports both local Claude Desktop integration and remote deployment to Azure Functions.
 
 ## Features
 
@@ -193,7 +193,7 @@ Required scopes:
 
 ---
 
-## Available Tools (70+)
+## Available Tools (69)
 
 ### Projects & Teams
 | Tool | Description |
@@ -209,16 +209,17 @@ Required scopes:
 | `get_work_items_by_ids` | Get by IDs |
 | `create_work_item` | Create new |
 | `update_work_item` | Update existing |
-| `update_work_items_batch` | Batch update |
-| `add_child_work_items` | Add children |
-| `link_work_items` | Link items |
+| `update_work_items_batch` | Batch update multiple work items |
+| `add_child_work_items` | Add children to parent work item |
+| `link_work_items` | Link two work items |
 | `add_work_item_comment` | Add comment |
 | `get_work_item_comments` | Get comments |
 | `get_work_item_revisions` | Get history |
 | `list_work_item_types` | List types |
-| `get_my_work_items` | My items |
+| `get_my_work_items` | My items (assigned or created) |
 | `get_work_items_for_iteration` | By iteration |
 | `list_backlogs` | List backlogs |
+| `list_backlog_work_items` | List work items in a backlog |
 
 ### Git & Repositories
 | Tool | Description |
@@ -229,7 +230,7 @@ Required scopes:
 | `get_branch` | Get branch details |
 | `create_branch` | Create branch |
 | `list_commits` | List commits |
-| `search_commits` | Search commits |
+| `search_commits` | Search commits with criteria |
 | `get_file_content` | Get file content |
 
 ### Pull Requests
@@ -242,7 +243,7 @@ Required scopes:
 | `update_pull_request_reviewers` | Set reviewers |
 | `list_pull_request_threads` | List threads |
 | `create_pull_request_thread` | Create thread |
-| `reply_to_pull_request_comment` | Reply |
+| `reply_to_pull_request_comment` | Reply to comment |
 
 ### Pipelines & Builds
 | Tool | Description |
@@ -264,6 +265,11 @@ Required scopes:
 | `list_team_iterations` | Team iterations |
 | `get_team_capacity` | Get capacity |
 | `update_team_capacity` | Update capacity |
+
+### Areas
+| Tool | Description |
+|------|-------------|
+| `list_areas` | List areas (classification nodes) |
 
 ### Wikis
 | Tool | Description |
@@ -290,6 +296,18 @@ Required scopes:
 | `search_code` | Search code |
 | `search_work_items` | Search work items |
 | `search_wiki` | Search wiki |
+
+### Identity
+| Tool | Description |
+|------|-------------|
+| `get_identity_ids` | Search for identity IDs |
+| `get_current_user` | Get current user |
+
+### Boards & Queries
+| Tool | Description |
+|------|-------------|
+| `list_boards` | List boards for a team |
+| `list_queries` | List saved queries |
 
 ### Security
 | Tool | Description |

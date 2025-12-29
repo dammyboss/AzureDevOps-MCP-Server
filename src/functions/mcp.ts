@@ -259,6 +259,8 @@ function getToolDefinitions() {
 
     // Iterations & Areas
     { name: 'list_iterations', description: 'List project iterations', inputSchema: { type: 'object', properties: { project: { type: 'string' } }, required: ['project'] } },
+    { name: 'create_iteration', description: 'Create a single iteration (sprint) with optional dates', inputSchema: { type: 'object', properties: { project: { type: 'string' }, name: { type: 'string', description: 'Iteration name e.g. Sprint 1' }, startDate: { type: 'string', description: 'Start date e.g. 2025-01-06' }, finishDate: { type: 'string', description: 'End date e.g. 2025-01-17' }, parentPath: { type: 'string', description: 'Optional parent path' } }, required: ['project', 'name'] } },
+    { name: 'create_iterations', description: 'Create multiple iterations (sprints) in batch', inputSchema: { type: 'object', properties: { project: { type: 'string' }, iterations: { type: 'array', description: 'Array of iteration objects with name, startDate, finishDate' } }, required: ['project', 'iterations'] } },
     { name: 'list_team_iterations', description: 'List team iterations', inputSchema: { type: 'object', properties: { project: { type: 'string' }, team: { type: 'string' } }, required: ['project', 'team'] } },
     { name: 'list_areas', description: 'List project areas', inputSchema: { type: 'object', properties: { project: { type: 'string' } }, required: ['project'] } },
     { name: 'get_team_capacity', description: 'Get team capacity for an iteration', inputSchema: { type: 'object', properties: { project: { type: 'string' }, team: { type: 'string' }, iterationId: { type: 'string' } }, required: ['project', 'team', 'iterationId'] } },
@@ -421,6 +423,8 @@ async function executeToolInternal(client: AzureDevOpsClient, toolName: string, 
     // Iterations
     case 'list_iterations':
       return client.getIterations(args.project);
+    case 'create_iteration':
+      return client.createIteration(args.project, args.name, args.startDate, args.finishDate, args.parentPath);
     case 'create_iterations':
       return client.createIterations(args.project, args.iterations);
     case 'list_team_iterations':

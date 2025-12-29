@@ -1,0 +1,13 @@
+*.js.map
+*.ts
+.git*
+.vscode
+local.settings.json
+test
+tsconfig.json
+.editorconfig
+*.md
+node_modules/@types
+src/
+.env
+.DS_Store
