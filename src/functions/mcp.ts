@@ -31,15 +31,45 @@ app.http('tools', {
   route: 'tools',
   handler: async (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> => {
     const tools = [
+      // Projects & Teams
       'list_projects', 'list_project_teams', 'list_team_members',
+      // Work Items
       'query_work_items', 'get_work_items_by_ids', 'create_work_item', 'update_work_item',
-      'list_repositories', 'list_branches', 'list_commits', 'get_file_content',
-      'list_pull_requests', 'get_pull_request', 'create_pull_request', 'update_pull_request',
-      'get_builds', 'list_build_definitions', 'list_pipelines', 'run_pipeline',
-      'list_iterations', 'list_team_iterations', 'list_areas',
+      'update_work_items_batch', 'add_child_work_items', 'link_work_items', 'unlink_work_item',
+      'add_artifact_link', 'link_work_item_to_pull_request', 'add_work_item_comment',
+      'get_work_item_comments', 'get_work_item_revisions', 'list_work_item_types',
+      'get_my_work_items', 'get_work_items_for_iteration', 'list_backlogs', 'list_backlog_work_items',
+      'get_query_results',
+      // Repositories & Branches
+      'list_repositories', 'get_repository', 'list_branches', 'get_my_branches', 'get_branch',
+      'create_branch', 'list_commits', 'search_commits', 'get_file_content',
+      // Pull Requests
+      'list_pull_requests', 'list_pull_requests_by_commits', 'get_pull_request',
+      'create_pull_request', 'update_pull_request', 'update_pull_request_reviewers',
+      'list_pull_request_threads', 'list_pull_request_thread_comments',
+      'create_pull_request_thread', 'update_pull_request_thread', 'reply_to_pull_request_comment',
+      // Builds & Pipelines
+      'get_builds', 'get_build_status', 'get_build_log', 'get_build_log_by_id', 'get_build_changes',
+      'list_build_definitions', 'get_build_definition_revisions',
+      'list_pipelines', 'create_pipeline', 'run_pipeline', 'get_pipeline_run', 'list_pipeline_runs',
+      'update_build_stage',
+      // Iterations & Areas
+      'list_iterations', 'create_iteration', 'create_iterations', 'list_team_iterations',
+      'assign_iterations', 'get_iteration_capacities', 'get_team_capacity', 'update_team_capacity',
+      'list_areas',
+      // Search
       'search_code', 'search_work_items', 'search_wiki',
-      'list_wikis', 'get_wiki_page', 'create_or_update_wiki_page',
-      'list_test_plans', 'create_test_plan', 'list_test_suites',
+      // Identity
+      'get_identity_ids', 'get_current_user',
+      // Boards & Queries
+      'list_boards', 'list_queries',
+      // Wikis
+      'list_wikis', 'get_wiki', 'list_wiki_pages', 'get_wiki_page', 'create_or_update_wiki_page',
+      // Test Plans
+      'list_test_plans', 'create_test_plan', 'list_test_suites', 'create_test_suite',
+      'add_test_cases_to_suite', 'list_test_cases', 'create_test_case', 'update_test_case_steps',
+      'get_test_results_from_build',
+      // Advanced Security
       'get_advanced_security_alerts', 'get_advanced_security_alert_details',
     ];
     return {
